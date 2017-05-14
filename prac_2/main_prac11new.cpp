@@ -79,6 +79,8 @@ GLfloat g_lookupdown = 0.0f;    // Look Position In The Z-Axis (NEW)
 
 int font = (int)GLUT_BITMAP_HELVETICA_18;
 
+//Variables para ultima posicion de la camara
+float LastPosition[8];
 
 //luces
 
@@ -355,72 +357,36 @@ void ventana()
 void Mesa ()
 {
 
-			glPushMatrix(); //Base 1
-				glTranslatef(1.50, 0.7, -1.5);
-				glScalef(0.1,0.1,0.5);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Base 2
-				glTranslatef(2.0, 0.7, -1.5);
-				glScalef(0.1,0.1,0.5);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Patita
-				glTranslatef(1.50, 1.10, -1.20);
-				glScalef(0.1,0.9,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Patita
-				glTranslatef(1.50, 1.10, -1.80);
-				glScalef(0.1,0.9,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Patita
-				glTranslatef(2.0, 1.10, -1.20);
-				glScalef(0.1,0.9,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Patita
-				glTranslatef(2.0, 1.10, -1.80);
-				glScalef(0.1,0.9,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-		   glPushMatrix(); //Soporte
-				glTranslatef(1.75, 1.5, -1.20);
-				glScalef(0.4,0.1,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Soporte
-				glTranslatef(1.75, 1.5, -1.8);
-				glScalef(0.45,0.1,0.1);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Soporte
-				glTranslatef(1.5, 1.5, -1.5);
-				glScalef(0.1,0.1,0.5);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-			glPushMatrix(); //Soporte
-				glTranslatef(2.0, 1.5, -1.5);
-				glScalef(0.1,0.1,0.5);
-				Base1.prisma3(1.0, 1.0, 1.0,MaderaBase1.GLindex);
-			glPopMatrix();
-
-
-			glPushMatrix(); //Mesa
+	glPushMatrix(); 
 				glTranslatef(1.75, 1.55, -1.5);
-				glScalef(2.0,0.05,1.0);
-				Base1.prisma3(1.0, 1.0, 1.0,Madera.GLindex);
-			glPopMatrix();
+				Base1.prisma3(0.05, 2.0, 1.0,Madera.GLindex);//Mesa
+
+				glPushMatrix(); 
+					glTranslatef(-0.25,-0.85,0);
+					Base1.prisma3(0.1, 0.1,0.5,MaderaBase1.GLindex);//Base Pata 1
+
+					glTranslatef(0.0,0.40, 0.30);
+					Base1.prisma3(0.9, 0.1, 0.1,MaderaBase1.GLindex);//pata A
+
+					glTranslatef(0.0,0.0, -0.50);
+					Base1.prisma3(0.9, 0.1, 0.1,MaderaBase1.GLindex);//Pata B
+
+				glPopMatrix();
+
+				glPushMatrix(); 
+					glTranslatef(0.25,-0.85, 0);
+					Base1.prisma3(0.1, 0.1, 0.5 ,MaderaBase1.GLindex);//Base Pata 2						
+					
+					glTranslatef(0.0,0.40,0.30);
+					Base1.prisma3(0.9,0.1,0.1,MaderaBase1.GLindex);//Pata A
+
+					glTranslatef(0.0,0.0, -0.50);
+					Base1.prisma3(0.9, 0.1, 0.1,MaderaBase1.GLindex);//Pata B
+				
+				glPopMatrix();
+
+
+	glPopMatrix();		  			
 	}
 void cuadro(void) {
 	glPushMatrix();
@@ -1067,21 +1033,101 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 	case 'w':   //Movimientos de camara
 	case 'W':
 		objCamera.Move_Camera(CAMERASPEED + 0.2);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+
+		printf("\n");
+
 		break;
 
 	case 's':
 	case 'S':
 		objCamera.Move_Camera(-(CAMERASPEED + 0.2));
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+
+		printf("\n");
 		break;
 
 	case 'a':
 	case 'A':
 		objCamera.Strafe_Camera(-(CAMERASPEED + 0.4));
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case 'd':
 	case 'D':
 		objCamera.Strafe_Camera(CAMERASPEED + 0.4);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case 'k':		//
@@ -1148,29 +1194,6 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 		}
 		break;
 
-	case 'y':
-	case 'Y':
-		posZ++;
-		printf("%f \n", posZ);
-		break;
-
-	case 'g':
-	case 'G':
-		posX--;
-		printf("%f \n", posX);
-		break;
-
-	case 'h':
-	case 'H':
-		posZ--;
-		printf("%f \n", posZ);
-		break;
-
-	case 'j':
-	case 'J':
-		posX++;
-		printf("%f \n", posX);
-		break;
 	case 'Z':
 		light = !light;
 		if (light)
@@ -1187,10 +1210,11 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 		break;
 
 	case '2':
-		objCamera.Position_Camera(25, 4.0f, -20, 25, 2.5f, -45, 0, 1, 0);
+		objCamera.Position_Camera(33, 3.5f, -16, 25, -3.5f, -16, 0, 1, 0);
 		break;
 	case '3':
-		objCamera.Position_Camera(25, 2.5f, -10, 25, 2.5f, -11, 0, 1, 0);
+		glRotatef(g_lookupdown, 1.0f, 0, 0);
+		objCamera.Position_Camera(LastPosition[0],LastPosition[1],LastPosition[2], LastPosition[3], LastPosition[4],LastPosition[5],LastPosition[6],LastPosition[7], LastPosition[8]);
 		break;
 	case 27:        // Cuando Esc es presionado...
 		exit(0);   // Salimos del programa
@@ -1206,27 +1230,144 @@ void arrow_keys(int a_keys, int x, int y)  // Funcion para manejo de teclas espe
 {
 	switch (a_keys) {
 	case GLUT_KEY_PAGE_UP:
-		objCamera.UpDown_Camera(CAMERASPEED);
+		objCamera.UpDown_Camera(CAMERASPEED);	
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+
+		printf("\n");
 		break;
 
 	case GLUT_KEY_PAGE_DOWN:
 		objCamera.UpDown_Camera(-CAMERASPEED);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
 		g_lookupdown -= 1.0f;
+		printf("\nglookupdown: %f",g_lookupdown);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
 		g_lookupdown += 1.0f;
+		printf("\nglookupdown: %f",g_lookupdown);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case GLUT_KEY_LEFT:
 		objCamera.Rotate_View(-CAMERASPEED);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	case GLUT_KEY_RIGHT:
 		objCamera.Rotate_View(CAMERASPEED);
+		printf("\nMoveCamera mPos.X: %f",objCamera.mPos.x);
+		LastPosition[0]= objCamera.mPos.x;
+		printf("\nMoveCamera mPos.y: %f",objCamera.mPos.y);
+		LastPosition[1]= objCamera.mPos.y;
+		printf("\nMoveCamera mPos.z: %f",objCamera.mPos.z);
+		LastPosition[2]= objCamera.mPos.z;
+		printf("\nViewCamera mView.x: %f",objCamera.mView.x);
+		LastPosition[3]=objCamera.mView.x;
+		printf("\nViewCamera mView.y: %f",objCamera.mView.y);
+		LastPosition[4]=objCamera.mView.y;
+		printf("\nViewCamera mView.z: %f",objCamera.mView.z);
+		LastPosition[5]=objCamera.mView.z;
+		printf("\npCamera mUp.x: %f",objCamera.mUp.x);
+		LastPosition[6]=objCamera.mUp.x;
+		printf("\npCamera mUp.y: %f",objCamera.mUp.y);
+		LastPosition[7]=objCamera.mUp.y;
+		printf("\npCamera mUp.z: %f",objCamera.mUp.z);
+		LastPosition[8]=objCamera.mUp.z;
+		printf("\n");
 		break;
 
 	default:
