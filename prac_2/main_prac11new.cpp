@@ -32,11 +32,12 @@ boolean actJ = FALSE;
 boolean actJ1 = TRUE;
 
 
-//Carga de Figuras
 
+//Carga de Figuras
 #define MAX_FRAMES 10
 int i_max_steps = 25;
 int i_curr_steps = 0;
+
 typedef struct _frame
 {
 	//Variables para GUARDAR Key Frames
@@ -62,7 +63,6 @@ typedef struct _frame
 	float giroMonitoInc;
 
 }FRAME;
-
 FRAME KeyFrame[MAX_FRAMES];
 int FrameIndex = 0;			//introducir datos
 bool play = false;
@@ -93,7 +93,22 @@ GLfloat LightAmbient1[] = { 1.0f, 0.0f, 0.0f, 1.0f }; 			// Ambient Light Values
 GLfloat LightDiffuse1[] = { 0.5f, 0.0f, 0.8f, 1.0f };				// Diffuse Light Values 
 GLfloat LightSpecular1[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values blanco
 bool	light1 = false;
-GLfloat LightPosition1[] = { 0.0f, 0.0f, 1.0f, 0.0f };
+GLfloat LightPosition1[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+
+
+//ROJA
+GLfloat LightAmbient4[] = { 0.8f, 0.0f, 0.0f, 1.0f }; 			// Ambient Light Values 
+GLfloat LightDiffuse4[] = { 1.0f, 0.5f, 0.0f, 1.0f };				// Diffuse Light Values 
+GLfloat LightSpecular4[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values blanco
+bool	light4 = false;
+
+//AZUL
+GLfloat LightAmbient3[] = { 0.0f, 0.0f, 1.0f, 1.0f }; 			// Ambient Light Values 
+GLfloat LightDiffuse3[] = { 0.5f, 0.0f, 1.0f, 1.0f };				// Diffuse Light Values 
+GLfloat LightSpecular3[] = { 1.0, 1.0, 1.0, 1.0 };				// Specular Light Values blanco
+bool	light3 = false;
+
+
 
 //bronze
 GLfloat mat_ambient[] = { 0.2125, 0.1275, 0.054, 1.0 };					// Color background
@@ -109,6 +124,14 @@ GLfloat mat_Rspecular[] = { 0.727811, 0.626959, 0.626959, 1.0 };				// Specular 
 GLfloat mat_Rshininess[] = { 0.6 * 128 };
 
 
+//PEARL
+GLfloat mat_Pambient[] = { 0.25, 0.20725, 0.20725, 1.0 };					// Color background
+GLfloat mat_Pdiffuse[] = { 1.0, 0.829, 0.829, 1.0 };					// Object Color main 
+GLfloat mat_Pspecular[] = { 0.296648, 0.296648, 0.296648, 1.0 };				// Specular color
+GLfloat mat_Pshininess[] = { 0.088 * 128 };
+
+
+
 CTexture text1;
 CTexture text3;	//Flecha
 CTexture text4;	//Pavimento
@@ -119,7 +142,7 @@ CTexture text6;	//Casa01
 CTexture textLibroCG;
 CTexture textLibrolit;
 CTexture textLibrolit1;
- 
+
 //Teztura puerta
 CTexture textPuerta;
 CTexture textPuerta_princ;
@@ -139,8 +162,8 @@ CFiguras fig6;
 CFiguras fig7;	//Para crear Monito
 
 
-//Muebles 3ds
-//CModel Mesa;
+				//Muebles 3ds
+				//CModel Mesa;
 CModel sillon;
 CModel sillon2;
 CModel silla1;
@@ -180,6 +203,28 @@ CTexture fire_ch;
 //Dodecaedro
 CTexture Dodecaedro;
 
+//canica UNO
+GLfloat mat_ambient2[] = { 0.19225, 0.19225, 0.19225, 1.0 };					// Color background
+GLfloat mat_diffuse2[] = { 0.50754, 0.50754, 0.50754, 1.0 };					// Object Color main 
+GLfloat mat_specular2[] = { 0.508273, 0.508273, 0.508273, 1.0 };				// Specular color
+GLfloat mat_shininess2[] = { 0.4 * 128 };
+
+//canica dos
+GLfloat mat_ambient3[] = { 0.0, 0.1, 0.06, 1.0 };					// Color background
+GLfloat mat_diffuse3[] = { 0.0, 0.50980392, 0.50980392, 1.0 };					// Object Color main 
+GLfloat mat_specular3[] = { 0.50196078,0.50196078,0.50196078, 1.0 };				// Specular color
+GLfloat mat_shininess3[] = { 0.25 * 128 };
+
+//canica tres
+GLfloat mat_ambient4[] = { 0,0,0, 1.0 };					// Color background
+GLfloat mat_diffuse4[] = { 0.5, 0.5, 0.0, 1.0 };					// Object Color main 
+GLfloat mat_specular4[] = { 0.60, 0.60, 0.50, 1.0 };				// Specular color
+GLfloat mat_shininess4[] = { 0.25 * 128 };
+
+CTexture t_hoyo;
+CTexture t_hexa;
+CFiguras fig;
+
 
 //// Mesa 
 //Figura para mesa
@@ -187,28 +232,27 @@ CFiguras Base1;
 //Textura Madera
 CTexture MaderaBase1;
 CTexture Madera;
-
-void ciudad(){
-
+void ciudad() {
 	glPushMatrix(); //Camino1
-	glTranslatef(23.5, 0.0, 0.0);
-	glScalef(40, 0.1, 7);
-	glDisable(GL_LIGHTING);
-	fig3.prisma2(text4.GLindex, 0);
-	glEnable(GL_LIGHTING);
+		glTranslatef(23.5, 0.0, 0.0);
+		glScalef(40, 0.1, 7);
+		glDisable(GL_LIGHTING);
+		fig3.prisma2(text4.GLindex, 0);
+		glEnable(GL_LIGHTING);
 	glPopMatrix();
 
 	glPushMatrix(); //Camino2
-	glTranslatef(-10, 0.0, 0.0);
-	glScalef(40, 0.1, 7);
-	glDisable(GL_LIGHTING);
-	fig3.prisma2(text4.GLindex, 0);
-	glEnable(GL_LIGHTING);
+		glTranslatef(-10, 0.0, 0.0);
+		glScalef(40, 0.1, 7);
+		glDisable(GL_LIGHTING);
+		fig3.prisma2(text4.GLindex, 0);
+		glEnable(GL_LIGHTING);
 	glPopMatrix();
 }
 
+
 //Muebles Casa
-void VentiladorT(){
+void VentiladorT() {
 	glPushMatrix();
 
 		//material bronze
@@ -218,12 +262,12 @@ void VentiladorT(){
 		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
 		glRotatef(rotV, 0, 1, 0);
-		glPushMatrix();//Centro						   			
-			fig7.esfera(0.75, 15, 15, 0);
+			glPushMatrix();//Centro						   			
+				fig7.esfera(0.75, 15, 15, 0);
 
-			glPushMatrix();//Soporte										
-				fig7.cilindro(0.15, 4.5, 15, 0);
-				glPushMatrix();//Helices
+				glPushMatrix();//Soporte										
+					fig7.cilindro(0.15, 4.5, 15, 0);
+					glPushMatrix();//Helices
 					fig7.prisma(0.1, 15, 1.0, 0, 0, 0, 0, 0, 0);
 				glPopMatrix();
 
@@ -264,15 +308,15 @@ void VentiladorT(){
 			glPopMatrix(); //soporte
 		glPopMatrix(); //centro
 	glPopMatrix();//ventilador	
-}
-void Librero() {
-	
+
+}void Librero() {
+
 	glPushMatrix();
 		glTranslatef(-5.5, -20, 35);
 		glRotatef(90, 1, 0, 0);
 		fig5.prisma(1.0, 6.0, 50.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
-	glPushMatrix();
+		glPushMatrix();
 		glTranslatef(-5.5, -20, 65);
 		glRotatef(90, 1, 0, 0);
 		fig5.prisma(1.0, 6.0, 50.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
@@ -288,31 +332,31 @@ void Librero() {
 		fig5.prisma(0.5, 6.0, 50.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, -45, 50);
-		fig5.prisma(0.5, 6.0, 31.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, -45, 50);
+	fig5.prisma(0.5, 6.0, 31.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, 5, 50);
-		fig5.prisma(0.5, 6.0, 31.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, 5, 50);
+	fig5.prisma(0.5, 6.0, 31.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, -20, 50);
-		fig5.prisma(0.5, 6.0, 30.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, -20, 50);
+	fig5.prisma(0.5, 6.0, 30.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, -30, 50);
-		fig5.prisma(0.5, 6.0, 30.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, -30, 50);
+	fig5.prisma(0.5, 6.0, 30.0, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, -10, 39);
-		fig5.prisma(0.5, 6.0, 7.5, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, -10, 39);
+	fig5.prisma(0.5, 6.0, 7.5, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 	glPushMatrix();
-		glTranslatef(-5.5, -10, 61);
-		fig5.prisma(0.5, 6.0, 7.5, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
+	glTranslatef(-5.5, -10, 61);
+	fig5.prisma(0.5, 6.0, 7.5, MaderaBase1.GLindex, 0, 0, 0, 0, 0);
 	glPopMatrix();
 }
-void Chimenea(void) {
+void Chimenea() {
 	glPushMatrix();
 		glTranslatef(82.8, 6.6, -50);
 		fig5.prisma(17.0, 1.0, 10.0, Ladrillo_Ch.GLindex, 0, 0, 0, 0, 0);
@@ -328,35 +372,34 @@ void Chimenea(void) {
 		glScalef(1, 6, 8);
 		glEnable(GL_ALPHA_TEST);
 		glAlphaFunc(GL_GREATER, 0.1);
-			fig5.prisma2(Ladrillo_sqrt.GLindex, Ladrillo_sqrt.GLindex);
+		fig5.prisma2(Ladrillo_sqrt.GLindex, Ladrillo_sqrt.GLindex);
 		glDisable(GL_ALPHA_TEST);
 		glEnable(GL_LIGHTING);
 	glPopMatrix();
 
 }
-void ventana()
-{
-	//Ventana_transparencia
-	glPushMatrix();
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //segundo hay varias GL_ONE			
 
-	glBindTexture(GL_TEXTURE_2D, ventana_prueba.GLindex);
-	glBegin(GL_QUADS);
-	glColor3f(1.0, 1.0, 1.0);
-	//VENTANA 
-	glNormal3f(0.0, 0.0, -1.0); //normal sobre el eje -z
-	glTexCoord2f(0.0, 0.0);	glVertex3f(5.85, 0.0, 4.2);
-	glTexCoord2f(1.0, 0.0);	glVertex3f(8.2, 0.0, 4.2);
-	glTexCoord2f(1.0, 1.0);	glVertex3f(8.2, 2.5, 4.2);
-	glTexCoord2f(0.0, 1.0);	glVertex3f(5.85, 2.5, 4.2);
+void trianguloTablero(GLuint t_texture) {
+	GLfloat vertice[6][3] = {
+		{ 0.0 , 0, 0.0 },   //a
+		{ 2 , 3.5, 0 },  //c  
+		{ 4 ,0 , 0 },  //b  
+		{ 0 ,0, -1 },
+		{ 2  ,3.5 , -1 },
+		{ 4  ,0 , -1 }
+	};
+
+
+	glBindTexture(GL_TEXTURE_2D, t_texture);
+	glBegin(GL_POLYGON);	//frente
+							//glColor3f(1, 0, 0);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2f(0.0f, 0.0f);   glVertex3fv(vertice[0]);
+	glTexCoord2f(0.5f, 1.0f);	glVertex3fv(vertice[1]);
+	glTexCoord2f(1.0f, 0.0f);	glVertex3fv(vertice[2]);
 	glEnd();
-	glDisable(GL_BLEND);
-	glPopMatrix();
-}
-void Mesa ()
-{
 
+<<<<<<< HEAD
 	glPushMatrix(); 
 				glTranslatef(1.75, 1.55, -1.5);
 				Base1.prisma3(0.05, 2.0, 1.0,Madera.GLindex);//Mesa
@@ -389,36 +432,185 @@ void Mesa ()
 	glPopMatrix();		  			
 	}
 void cuadro(void) {
-	glPushMatrix();
-		glTranslatef(0, 0, 0);
-		cubo.prisma3(5, 0.1, 10, textCuadro1.GLindex);
-	glPopMatrix();
-	return;
+=======
+	glBegin(GL_POLYGON);	//atras		
+		glVertex3fv(vertice[3]);
+		glVertex3fv(vertice[4]);
+		glVertex3fv(vertice[5]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//lateral izquierdo		
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[3]);
+	glVertex3fv(vertice[4]);
+	glVertex3fv(vertice[1]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//lateral derecho		
+	glVertex3fv(vertice[1]);
+	glVertex3fv(vertice[4]);
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[2]);
+	glEnd();
+
+
+	glBegin(GL_POLYGON);	//lateral inferior		
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[3]);
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[2]);
+	glEnd();
 }
-void poster(void) {
-	glPushMatrix();
-	glTranslatef(0, 0, 0);
-	cubo.prisma(5, 0.07, 5, textCuadro2.GLindex, 0, 0, 0, 0, 0);
-	glPopMatrix();
-	return;
+
+void hexaTablero(GLuint text_hexa) {
+	GLfloat vertice[12][3] = {
+		{ 0.0 , 0, 0.0 },   //a
+		{ 4, 0, 0 },  //b 
+		{ 6 ,3.46 , 0 },  //c
+		{ 4 ,6.93, 0 },
+		{ 0  ,6.93 , 0 },
+		{ -2  ,3.46 , 0 },
+		{ 0.0 , 0, -1 },
+		{ 4, 0, -1 },
+		{ 6 ,3.46 , -1 },
+		{ 4 ,6.93, -1 },
+		{ 0  ,6.93 , -1 },
+		{ -2  ,3.46 , -1 }
+	};
+
+	glBindTexture(GL_TEXTURE_2D, text_hexa);
+
+	glBegin(GL_POLYGON);	//frente	
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2f(0.25f, 0.0f); glVertex3fv(vertice[0]);
+	glTexCoord2f(0.0f, 0.5f); glVertex3fv(vertice[5]);
+	glTexCoord2f(0.25f, 1.0f); glVertex3fv(vertice[4]);
+	glTexCoord2f(0.75f, 1.0f); glVertex3fv(vertice[3]);
+	glTexCoord2f(1.0f, 0.5f); glVertex3fv(vertice[2]);
+	glTexCoord2f(0.75f, 0.0f); glVertex3fv(vertice[1]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//atras
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[11]);
+	glVertex3fv(vertice[10]);
+	glVertex3fv(vertice[9]);
+	glVertex3fv(vertice[8]);
+	glVertex3fv(vertice[7]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//lateral izquierda superior		
+	glVertex3fv(vertice[5]);
+	glVertex3fv(vertice[11]);
+	glVertex3fv(vertice[10]);
+	glVertex3fv(vertice[4]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//lateral izquierda inferior
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[11]);
+	glVertex3fv(vertice[5]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//latera superior
+	glVertex3fv(vertice[4]);
+	glVertex3fv(vertice[10]);
+	glVertex3fv(vertice[9]);
+	glVertex3fv(vertice[3]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//latera inferior		
+	glVertex3fv(vertice[0]);
+	glVertex3fv(vertice[6]);
+	glVertex3fv(vertice[7]);
+	glVertex3fv(vertice[1]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//latera derecha superior		
+	glVertex3fv(vertice[2]);
+	glVertex3fv(vertice[8]);
+	glVertex3fv(vertice[9]);
+	glVertex3fv(vertice[3]);
+	glEnd();
+
+	glBegin(GL_POLYGON);	//latera derecha inferior		
+	glVertex3fv(vertice[1]);
+	glVertex3fv(vertice[2]);
+	glVertex3fv(vertice[8]);
+	glVertex3fv(vertice[7]);
+	glEnd();
 }
-void book(GLuint textura3) {
+
+void tableroDamas(GLuint text_triangulo, GLuint text_Hexa) {
 	glPushMatrix();
-	cubo.prisma(1, 1, 1, textura3, 0, 0, 0, 0, 0);
+	hexaTablero(text_Hexa);
+	//pico izquierdo superior
+>>>>>>> b239ad4c33d9a15b21c281a978ee6ef598a58d0e
+	glPushMatrix();
+	glTranslated(-2, 3.5, 0);
+	glRotated(60, 0, 0, 1);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	//pico izquierdo inferior
+	glPushMatrix();
+	glTranslated(-4, 0, 0);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	//pico derecho inferior
+	glPushMatrix();
+	glTranslated(4, 0, 0);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	//pico derecho superior
+	glPushMatrix();
+	glTranslated(6, 3.5, 0);
+	glRotated(60, 0, 0, 1);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	//pico superior
+	glPushMatrix();
+	glTranslated(0, 6.93, 0);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	//pico inferior
+	glPushMatrix();
+	glTranslated(4, 0, 0);
+	glRotated(180, 0, 0, 1);
+	trianguloTablero(text_triangulo);
+	glPopMatrix();
+	glPopMatrix();
+
+}
+void ventana()
+{
+	//Ventana_transparencia
+	glPushMatrix();
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //segundo hay varias GL_ONE			
+
+		glBindTexture(GL_TEXTURE_2D, ventana_prueba.GLindex);
+		glBegin(GL_QUADS);
+			glColor3f(1.0, 1.0, 1.0);
+			//VENTANA 
+			glNormal3f(0.0, 0.0, -1.0); //normal sobre el eje -z
+			glTexCoord2f(0.0, 0.0);	glVertex3f(5.85, 0.0, 4.2);
+			glTexCoord2f(1.0, 0.0);	glVertex3f(8.2, 0.0, 4.2);
+			glTexCoord2f(1.0, 1.0);	glVertex3f(8.2, 2.5, 4.2);
+			glTexCoord2f(0.0, 1.0);	glVertex3f(5.85, 2.5, 4.2);
+		glEnd();
+		glDisable(GL_BLEND);
 	glPopMatrix();
 }
 
-//Casa
-void casa(void) {
+
+void casa() {
+	glEnable(GL_LIGHTING);
+
 
 	glPushMatrix(); //Paredes Interiores
 	glTranslatef(0, 20, 0);
 	fig1.pared_int(60.0, 85.0, 85.0, interior1.GLindex, interior2.GLindex, interior3.GLindex);
-	glPopMatrix();
-
-	glPushMatrix(); //Paredes Exteriores
-	glTranslatef(0, 20, 0);
-	fig1.pared_ext(60.3, 85.3, 85.3, exterior.GLindex);
 	glPopMatrix();
 
 	glPushMatrix();//Techo
@@ -431,40 +623,137 @@ void casa(void) {
 	pisoCasa.piso(1, 85, 85, textPiso.GLindex);
 	glPopMatrix();
 
-	glPushMatrix();//Puerta		
-	glTranslatef(33.5, 10, -42.7);
-	glRotatef(abrirPuerta, 0, 1, 0);
-	glTranslatef(5, -0.4, 0);
-	pisoCasa.prisma(40, 8, 0.3, textPuerta_princ.GLindex, 0, 0, 0, 0, 0);
-	glPopMatrix();
+	glPushMatrix();	
+		glPushMatrix();//Puerta		
+		glTranslatef(33.5, 10, -42.7);
+		glRotatef(abrirPuerta, 0, 1, 0);
+		glTranslatef(5, -0.4, 0);
+		pisoCasa.prisma(40, 8, 0.3, textPuerta_princ.GLindex, 0, 0, 0, 0, 0);
+		glPopMatrix();
 
-	glPushMatrix();//Pared frontal 1
-	glTranslatef(-4.1, 14, -42.5);
-	fig4.pared(47, 77, 0.3, interior4.GLindex, exterior.GLindex);
-	glPopMatrix();
+		glPushMatrix();//Pared frontal 1
+		glTranslatef(-4.1, 14, -42.5);
+		fig4.pared(47, 77, 0.3, interior4.GLindex, exterior.GLindex);
+		glPopMatrix();
 
-	glPushMatrix();//Pared frontal 2
-	glTranslatef(37, 40, -42.5);
-	fig4.pared(20.7, 11.5, 0.3, interior4.GLindex, exterior.GLindex);
-	glPopMatrix();
+		glPushMatrix();//Pared frontal 2
+		glTranslatef(37, 40, -42.5);
+		fig4.pared(20.7, 11.5, 0.3, interior4.GLindex, exterior.GLindex);
+		glPopMatrix();
 
-	glPushMatrix();//Ventanas
-	glTranslatef(-34, 37, -59.4);
-	glScaled(8, 5, 4);
-	ventana();
-	glTranslatef(-2.3, 0, 0);
-	ventana();
-	glTranslatef(-2.3, 0, 0);
-	ventana();
-	glTranslatef(-2.3, 0, 0);
-	ventana();
-	glPopMatrix();
+		glPushMatrix();//Ventanas
+			glTranslatef(-34, 37, -59.4);
+			glScaled(8, 5, 4);
+			ventana();
+			glTranslatef(-2.3, 0, 0);
+			ventana();
+			glTranslatef(-2.3, 0, 0);
+			ventana();
+			glTranslatef(-2.3, 0, 0);
+			ventana();
+		glPopMatrix();
 
+		glPushMatrix(); //Paredes Exteriores			
+			glTranslatef(0, 20, 0);
+			fig1.pared_ext(60.3, 85.3, 85.3, exterior.GLindex);			
+		glPopMatrix();		
+	glPopMatrix();
 
 	return;
 }
 
 
+void Mesa()
+{
+
+
+	glPushMatrix(); //Base 1
+	glTranslatef(1.50, 0.7, -1.5);
+	glScalef(0.1, 0.1, 0.5);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Base 2
+	glTranslatef(2.0, 0.7, -1.5);
+	glScalef(0.1, 0.1, 0.5);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Patita
+	glTranslatef(1.50, 1.10, -1.20);
+	glScalef(0.1, 0.9, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Patita
+	glTranslatef(1.50, 1.10, -1.80);
+	glScalef(0.1, 0.9, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Patita
+	glTranslatef(2.0, 1.10, -1.20);
+	glScalef(0.1, 0.9, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Patita
+	glTranslatef(2.0, 1.10, -1.80);
+	glScalef(0.1, 0.9, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Soporte
+	glTranslatef(1.75, 1.5, -1.20);
+	glScalef(0.4, 0.1, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Soporte
+	glTranslatef(1.75, 1.5, -1.8);
+	glScalef(0.45, 0.1, 0.1);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Soporte
+	glTranslatef(1.5, 1.5, -1.5);
+	glScalef(0.1, 0.1, 0.5);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+	glPushMatrix(); //Soporte
+	glTranslatef(2.0, 1.5, -1.5);
+	glScalef(0.1, 0.1, 0.5);
+	Base1.prisma3(1.0, 1.0, 1.0, MaderaBase1.GLindex);
+	glPopMatrix();
+
+
+	glPushMatrix(); //Mesa
+	glTranslatef(1.75, 1.55, -1.5);
+	glScalef(2.0, 0.05, 1.0);
+	Base1.prisma3(1.0, 1.0, 1.0, Madera.GLindex);
+	glPopMatrix();
+}
+void cuadro(void) {
+	glPushMatrix();
+	glTranslatef(0, 0, 0);
+	cubo.prisma(5, 0.1, 10, textCuadro1.GLindex, 0, 0, 0, 0, 0);
+	glPopMatrix();
+	return;
+}
+void poster(void) {
+	glPushMatrix();
+	glTranslatef(0, 0, 0);
+	cubo.prisma(5, 0.07, 5, textCuadro2.GLindex, 0, 0, 0, 0, 0);
+	glPopMatrix();
+	return;
+}
+
+void book(GLuint textura3) {
+	glPushMatrix();
+	cubo.prisma(1, 1, 1, textura3, 0, 0, 0, 0, 0);
+	glPopMatrix();
+}
 
 
 
@@ -495,6 +784,20 @@ void luces() {
 	glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient1);
 	glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse1);
 	glLightfv(GL_LIGHT1, GL_SPECULAR, LightSpecular1);
+
+	glLightfv(GL_LIGHT3, GL_AMBIENT, LightAmbient3);
+	glLightfv(GL_LIGHT3, GL_DIFFUSE, LightDiffuse3);
+	glLightfv(GL_LIGHT3, GL_SPECULAR, LightSpecular3);
+	glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 20.0);
+	glLightf(GL_LIGHT3, GL_SPOT_EXPONENT, 1);
+
+	glLightfv(GL_LIGHT4, GL_AMBIENT, LightAmbient4);
+	glLightfv(GL_LIGHT4, GL_DIFFUSE, LightDiffuse4);
+	glLightfv(GL_LIGHT4, GL_SPECULAR, LightSpecular4);
+	glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, 15.0);
+	glLightf(GL_LIGHT4, GL_SPOT_EXPONENT, 1);
+
+	
 }
 
 void InitGL(GLvoid)     // Inicializamos parametros
@@ -502,7 +805,6 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Negro de fondo	
 
 	glEnable(GL_TEXTURE_2D);
-
 	glShadeModel(GL_SMOOTH);
 
 
@@ -514,10 +816,19 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	glEnable(GL_AUTO_NORMAL);
 	glEnable(GL_NORMALIZE);
 
+	t_hoyo.LoadTGA("triMad.tga");
+	t_hoyo.BuildGLTexture();
+	t_hoyo.ReleaseImage();
+
+	t_hexa.LoadTGA("hexa1.tga");
+	t_hexa.BuildGLTexture();
+	t_hexa.ReleaseImage();
+
+
 	text1.LoadBMP("01.bmp");
 	text1.BuildGLTexture();
 	text1.ReleaseImage();
-	
+
 	Ladrillo_Ch.LoadTGA("Chimenea/Ladrillo.tga");
 	Ladrillo_Ch.BuildGLTexture();
 	Ladrillo_Ch.ReleaseImage();
@@ -571,7 +882,7 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	ventana_prueba.LoadTGA("Texturas/ventana_prueba.tga");
 	ventana_prueba.BuildGLTexture();
 	ventana_prueba.ReleaseImage();
-	
+
 	//Cuadros
 	textCuadro1.LoadTGA("casa/cuadro1.tga");
 	textCuadro1.BuildGLTexture();
@@ -631,7 +942,7 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	textPuerta_princ.BuildGLTexture();
 	textPuerta_princ.ReleaseImage();
 
-	
+
 	//Madera  texturas
 	MaderaBase1.LoadTGA("Texturas/Madera_Base1.tga");
 	MaderaBase1.BuildGLTexture();
@@ -647,48 +958,29 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	//Mesa._3dsLoad("Table 2.3ds");
 	sillon._3dsLoad("Casa/sillon.3DS");
 	sillon2._3dsLoad("Casa/sillon.3DS");
-	
+
 
 	silla1._3dsLoad("Modelos/silla1.3DS");
 	silla2._3dsLoad("Modelos/silla2.3DS");
 	silla3._3dsLoad("Modelos/silla3.3DS");
 	silla4._3dsLoad("Modelos/silla4.3DS");
-	//END NEW//////////////////////////////
+	
 
 	objCamera.Position_Camera(25, 2.5f, -10, 25, 2.5f, -11, 0, 1, 0);
 
-	//NEW Crear una lista de dibujo
+	
 	ciudad_display_list = createDL();
 
-	//NEW Iniciar variables de KeyFrames
+	
 	for (int i = 0; i<MAX_FRAMES; i++)
 	{
 		KeyFrame[i].posX = 0;
 		KeyFrame[i].posY = 0;
 		KeyFrame[i].posZ = 0;
-		KeyFrame[i].incX = 0;
-		KeyFrame[i].incY = 0;
-		KeyFrame[i].incZ = 0;
-		KeyFrame[i].rotRodIzq = 0;
-		KeyFrame[i].rotMusIzq = 0;
-		KeyFrame[i].rotMusIzqInc = 0;
-		KeyFrame[i].rotBraIzq = 0;
-		KeyFrame[i].rotBraIzqInc = 0;
-		KeyFrame[i].rotBraDer = 0;
-		KeyFrame[i].rotBraDerInc = 0;
-
-		KeyFrame[i].rotBraIzqEn = 0;
-		KeyFrame[i].rotBraIzqEnInc = 0;
-		KeyFrame[i].rotBraDerEn = 0;
-		KeyFrame[i].rotBraDerEnInc = 0;
-		KeyFrame[i].rotInc = 0;
-		KeyFrame[i].giroMonito = 0;
-		KeyFrame[i].giroMonitoInc = 0;
 	}
-	//NEW//////////////////NEW//////////////////NEW//////////////////
+	
 
 }
-
 void pintaTexto(float x, float y, float z, void *font, char *string)
 {
 
@@ -701,127 +993,280 @@ void pintaTexto(float x, float y, float z, void *font, char *string)
 	}
 }
 
-void display(void){  // Creamos la funcion donde se dibuja
+void display(void) {  // Creamos la funcion donde se dibuja
+	GLfloat LightPosition2[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat LightDirection2[] = { 0.0f, -1.0f, 0.0f };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	glPushMatrix();
-
+	
+	
 	//CONTROL DE LUCES
-		luces();
-		if (light)
+	glPushMatrix(); //LUZ
+		glLightfv(GL_LIGHT0, GL_POSITION, LightPosition2);
+		luces(); 
+		if (light) {		
 			glEnable(GL_LIGHT0);
-		else
+		}
+		else {
 			glDisable(GL_LIGHT0);
-
+		}
 		glEnable(GL_LIGHTING);
+	glPopMatrix();//LUZ
 	//FIN DE CONTROL DE LUCES
-
+	
 	glRotatef(g_lookupdown, 1.0f, 0, 0);
 	gluLookAt(objCamera.mPos.x, objCamera.mPos.y, objCamera.mPos.z,
 		objCamera.mView.x, objCamera.mView.y, objCamera.mView.z,
 		objCamera.mUp.x, objCamera.mUp.y, objCamera.mUp.z);
-	
-	glPushMatrix();
-		glPushMatrix(); //Creamos cielo
+
+	glPushMatrix(); //Creamos cielo
 		glDisable(GL_LIGHTING);
 		glTranslatef(0, 60, 0);
 		fig1.skybox(130.0, 130.0, 130.0, text1.GLindex);
 		glEnable(GL_LIGHTING);
-	glPopMatrix();
+	glPopMatrix(); //CIELO
 
-	glPushMatrix(); //-------------------------------Creamos Silla1
-		glTranslatef(30, 0, -19);
-		glScalef(0.10,0.08,0.09);
-		silla1.GLrender(NULL,_SHADED,1.0);
-	glPopMatrix();	
+	glPushMatrix();  //----LAMPARAS DE ESQUINAS
 
-	glPushMatrix(); //-------------------------------Creamos Silla2
-		glTranslatef(30, 0, -13);
-		glRotated(180,0,1,0);
-		glScalef(0.03,0.03,0.03);
-		silla2.GLrender(NULL,_SHADED,1.0);
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(18, 7.6, -28.5);
+			lampara.cono(1.0, 0.4, 50, textLampara.GLindex);
+		glPopMatrix();
 
-	glPushMatrix(); //-------------------------------Creamos Silla3
-		glTranslatef(34.7, 0, -16);
-		glScalef(0.1,0.1,0.1);
-		silla3.GLrender(NULL,_SHADED,1.0);
-	glPopMatrix();
+		
+		glPushMatrix();
+			glTranslatef(18, 7.6, -5);
+			glLightfv(GL_LIGHT4, GL_POSITION, LightPosition2);
+			glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, LightDirection2);
+			lampara.cono(1.0, 0.4, 50, textLampara.GLindex);	
+			glDisable(GL_LIGHTING);
+			if (light4) {
+				glEnable(GL_LIGHT4);
+			}
+			else {
+				glDisable(GL_LIGHT4);
+			}
+			glEnable(GL_LIGHTING);
+		glPopMatrix();
 
-	glPushMatrix(); //-------------------------------Creamos Silla4
-		glTranslatef(25.0, 0, -16);
-		glScalef(0.03,0.03,0.03);
-		glRotated(90,0,1,0);
-		silla4.GLrender(NULL,_SHADED,1.0);
-	glPopMatrix();
-	
-	glPushMatrix();//------------------Creamos  Mesa
-		glTranslatef(25, -1, -13);
-		glScalef(3,2,2);
-		Mesa();
-	glPopMatrix();
+		glPushMatrix();
+			glTranslatef(41, 7.6, -28);
+			glLightfv(GL_LIGHT3, GL_POSITION, LightPosition2);
+			glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, LightDirection2);
+			lampara.cono(1.0, 0.4, 50, textLampara.GLindex);
+
+			glDisable(GL_LIGHTING);
+			if (light3) {
+				glEnable(GL_LIGHT3);
+			}
+			else {
+				glDisable(GL_LIGHT3);
+			}
+			glEnable(GL_LIGHTING);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(42, 7.6, -5);
+			lampara.cono(1.0, 0.4, 50, textLampara.GLindex);
+		glPopMatrix();
+		//glEnable(GL_LIGHTING);
+	glPopMatrix(); //LAMPARA
+
+	glPushMatrix();//------------------Creamos  Mesa		
+	glTranslatef(25, -1, -13);
+	glScalef(3, 2, 2);
+	Mesa();
+	glPopMatrix();//MESA
 
 	glPushMatrix(); //-------------------------------Creamos chimenea
 		glTranslatef(1, 1, 1);
 		glScalef(0.5, 0.5, 0.5);
 		Chimenea();
-		glEnable(GL_LIGHTING);
-	glPopMatrix();
+	glPopMatrix();//CHIMENEA
 
-
-	glPushMatrix();//--------------------------------dibuja poster 
+	glPushMatrix();//...........................dibuja poster 	
 		glTranslatef(42.75, 4, -15);
-			poster();
-		glEnable(GL_LIGHTING);
-	glPopMatrix();	
+		poster();
+	glPopMatrix();//POSTER
 
 	glPushMatrix();//...........................dibuja cuadro 
 		glTranslatef(17.3, 4, -15);
-			cuadro();
-		glEnable(GL_LIGHTING);
-	glPopMatrix();
+		cuadro();
+	glPopMatrix();//CUADRO
 
-	glPushMatrix();//------------------------------dodecaedro
+	glPushMatrix();//------------------------------dodecaedromini
 		glTranslatef(28.5, 2.29, -16);
 		glScalef(0.08, 0.08, 0.08);
 		glRotatef(rotD * 2, 0, 1, 0);
 		glRotatef(rotD, 1, 0, 0);
 		glRotatef(rotD, 1, 0, 0);
-		//glDisable(GL_LIGHTING);
 		fig5.dodecaedro(Dodecaedro.GLindex, 0);
-		glEnable(GL_LIGHTING);
+	glPopMatrix();//DODE
+
+	glPushMatrix(); // TABLERO
+		glTranslatef(31, 2.3, -15.6);
+		glScalef(0.08, 0.08, 0.08);
+		glRotated(-90, 1, 0, 0);
+
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+		tableroDamas(t_hoyo.GLindex, t_hexa.GLindex);
+
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse2);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient2);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular2);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess2);
+
+		glPushMatrix();//CANICAS IZQUIERDA
+			glTranslatef(-3.2, 0.5, 0);
+			glTranslated(posX, posY, 0.0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+		glPopMatrix();
+
+		glPushMatrix();
+			glTranslatef(-2.3, 0.5, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.5, 0.7, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0.0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0.0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.4, 0.8, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0.0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.4, 0.8, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(1.55, -0.7, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+		glPopMatrix();
+
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse3);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient3);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular3);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess3);
+
+		glPushMatrix();
+			glTranslatef(2, 9.6, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.4, -0.8, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.4, -0.8, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.4, -0.6, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(1.2, -1, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(1, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.5, -0.7, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+		glPopMatrix();
+
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse4);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient4);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular4);
+		glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess4);
+		glPushMatrix();
+			glTranslatef(7.2, 6.5, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.3, -0.6, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.5, 0.7, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.9, -1.5, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-1.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+			glTranslatef(-0.8, 0, 0);
+			fig.esfera(0.3, 20.0, 20.0, 0);
+		glPopMatrix();
+
+	glPopMatrix();// TABLERO
+
+	glPushMatrix();//-----------------------librero
+		glTranslatef(18.5, 0, -18.5);
+		glRotatef(180, 1, 0, 0);		
+		glScalef(0.15, 0.15, 0.15);	
+		Librero();
+	glPopMatrix();//LIBRERO
+		
+	glPushMatrix(); //-------------------------------Creamos Silla1
+		glTranslatef(30, 0, -19);
+		glScalef(0.10, 0.08, 0.09);
+		silla1.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
+
+	glPushMatrix(); //-------------------------------Creamos Silla2
+		glTranslatef(30, 0, -13);
+		glRotated(180, 0, 1, 0);
+		glScalef(0.03, 0.03, 0.03);
+		silla2.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
+
+	glPushMatrix(); //-------------------------------Creamos Silla3
+		glTranslatef(34.7, 0, -16);
+		glScalef(0.1, 0.1, 0.1);
+		silla3.GLrender(NULL, _SHADED, 1.0);
+	glPopMatrix();
+
+	glPushMatrix(); //-------------------------------Creamos Silla4
+		glTranslatef(25.0, 0, -16);
+		glScalef(0.03, 0.03, 0.03);
+		glRotated(90, 0, 1, 0);
+		silla4.GLrender(NULL, _SHADED, 1.0);		
 	glPopMatrix();
 
 	glPushMatrix();//ventilador y luz de techo
 		glRotatef(0, 0, 1, 0);
 		glTranslatef(30, 7.5, -15);
 			glPushMatrix();
-			glTranslatef(0, -2, 0);
-			glScalef(1.2, 1.2, 1.2);
-			glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_Rdiffuse);
-			glMaterialfv(GL_FRONT, GL_AMBIENT, mat_Rambient);
-			glMaterialfv(GL_FRONT, GL_SPECULAR, mat_Rspecular);
-			glMaterialfv(GL_FRONT, GL_SHININESS, mat_Rshininess);
+				glTranslatef(0, -2, 0);
+				glScalef(1.2, 1.2, 1.2);
+				glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_Rdiffuse);
+				glMaterialfv(GL_FRONT, GL_AMBIENT, mat_Rambient);
+				glMaterialfv(GL_FRONT, GL_SPECULAR, mat_Rspecular);
+				glMaterialfv(GL_FRONT, GL_SHININESS, mat_Rshininess);
 
-			glLightfv(GL_LIGHT1, GL_POSITION, LightPosition1);			
-			lampara.cono(2.0, 0.4, 100, textLampara.GLindex);
+				glLightfv(GL_LIGHT1, GL_POSITION, LightPosition1);
+				lampara.cono(2.0, 0.4, 100, textLampara.GLindex);
 
-			glDisable(GL_LIGHTING);
-			if (light1)
-				glEnable(GL_LIGHT1);
-			else
-				glDisable(GL_LIGHT1);
-			glEnable(GL_LIGHTING);
-		glPopMatrix();
+				glDisable(GL_LIGHTING);
+				if (light1)
+					glEnable(GL_LIGHT1);
+				else
+					glDisable(GL_LIGHT1);
+
+				glEnable(GL_LIGHTING);
+			glPopMatrix();
 		glScalef(0.3, 0.3, 0.3);
 		VentiladorT();
-	glPopMatrix();
+	glPopMatrix();//VENTILADOR
 
 	glPushMatrix();//...........................Crea sillon 3ds
 		glTranslatef(33.5, 0, -23);
 		glScalef(0.04, 0.04, 0.06);
-		glRotated(90,0,1,0);
+		glRotated(90, 0, 1, 0);
 		sillon.GLrender(NULL, _SHADED, 1.0);
 		glEnable(GL_LIGHTING);
 	glPopMatrix();
@@ -832,74 +1277,30 @@ void display(void){  // Creamos la funcion donde se dibuja
 		sillon.GLrender(NULL, _SHADED, 1.0);
 		glEnable(GL_LIGHTING);
 	glPopMatrix();
-	/*
-	glPushMatrix();//...........................Crea libro 1
-		glTranslatef(20, 1.85, -26);
-		glScalef(1, 0.1, 0.66);
-		glDisable(GL_LIGHTING);
-		book(textLibroCG.GLindex);
-		glEnable(GL_LIGHTING);
-	glPopMatrix();
 
-	glPushMatrix();//...........................Crea Libro 2
-		glTranslatef(19, 1.85, -26);
-		glScalef(1, 0.1, 0.66);
-		glRotatef(25, 0, 1, 0);
-		glDisable(GL_LIGHTING);
-		book(textLibrolit.GLindex);
-		glEnable(GL_LIGHTING);
-	glPopMatrix();
-
-	glPushMatrix();//...........................Crea libro 3
-		glTranslatef(20.8, 1.85, -27);
-		glScalef(1, 0.1, 0.66);
-		glRotatef(-60, 0, 1, 0);
-		book(textLibrolit1.GLindex);
-		glEnable(GL_LIGHTING);
-	glPopMatrix();*/
-		
-	glPushMatrix();//----------------------Carretera
+	glPushMatrix(); // CARRETERA
 		glEnable(GL_COLOR_MATERIAL);
 		glColor3f(1, 1, 1);
 		glCallList(ciudad_display_list);
 		glDisable(GL_COLOR_MATERIAL);
 	glPopMatrix();
 
-	
-	glPushMatrix();//-----------------------Casa
+	//CASA///////////////////
+	glPushMatrix();	
 		glScalef(1.0, 0.5, 1.0);
 		glTranslatef(30, 3, -17.2);
-		glRotatef(180, 0, 1, 0);
-		glDisable(GL_LIGHTING);
+		glRotatef(180, 0, 1, 0);	
 		glScalef(0.3, 0.3, 0.3);
-			casa();
-		glEnable(GL_LIGHTING);
-	glPushMatrix();
+		casa();
+		glDisable(GL_LIGHTING);
+	glPopMatrix();
+
 	
-	glPushMatrix();//-----------------------librero
-		glRotatef(180, 0, 1, 0);
-		glTranslatef(-36.5, 22, -65.5);
-		glScalef(.7, .7, .7);
-			Librero();
-	glPopMatrix();
-
-
-	glPopMatrix();
-
-
-	glEnable(GL_LIGHTING);
-	glPopMatrix();
-
-
-	glColor3f(1.0, 1.0, 1.0);
-
-	glPopMatrix();
-	glPopMatrix();
+	
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
 	glColor3f(1.0, 0.0, 0.0);
-	pintaTexto(-11, 12.0, -14.0, (void *)font, "Proyecto Laboratorio");
-	pintaTexto(-11, 8.5, -14, (void *)font, s);
+	pintaTexto(-11, 12.0, -14.0, (void *)font, "Proyecto Laboratorio");	
 	glColor3f(1.0, 1.0, 1.0);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_TEXTURE_2D);
@@ -907,7 +1308,10 @@ void display(void){  // Creamos la funcion donde se dibuja
 	glutSwapBuffers();
 }
 
-void animacion(){
+void animacion() {
+
+
+
 	fig3.text_izq -= 0.01;
 	fig3.text_der -= 0.01;
 	if (fig3.text_izq<-1)
@@ -963,7 +1367,7 @@ void animacion(){
 			{
 				i_curr_steps = 0; //Reset counter
 								  //Interpolation
-				KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;		//100 frames
+			/*	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].posX - KeyFrame[playIndex].posX) / i_max_steps;		//100 frames
 				KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].posY - KeyFrame[playIndex].posY) / i_max_steps;		//100 frames
 				KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].posZ - KeyFrame[playIndex].posZ) / i_max_steps;		//100 frames
 				KeyFrame[playIndex].rotInc = (KeyFrame[playIndex + 1].rotRodIzq - KeyFrame[playIndex].rotRodIzq) / i_max_steps;		//100 frames
@@ -973,12 +1377,12 @@ void animacion(){
 				KeyFrame[playIndex].rotBraDerInc = (KeyFrame[playIndex + 1].rotBraDer - KeyFrame[playIndex].rotBraDer) / i_max_steps;
 
 				KeyFrame[playIndex].rotBraIzqEnInc = (KeyFrame[playIndex + 1].rotBraIzqEn - KeyFrame[playIndex].rotBraIzqEn) / i_max_steps;
-				KeyFrame[playIndex].rotBraDerEnInc = (KeyFrame[playIndex + 1].rotBraDerEn - KeyFrame[playIndex].rotBraDerEn) / i_max_steps;
+				KeyFrame[playIndex].rotBraDerEnInc = (KeyFrame[playIndex + 1].rotBraDerEn - KeyFrame[playIndex].rotBraDerEn) / i_max_steps;*/
 			}
 		}
 		else
 		{
-			posX += KeyFrame[playIndex].incX;
+		/*	posX += KeyFrame[playIndex].incX;
 			posY += KeyFrame[playIndex].incY;
 			posZ += KeyFrame[playIndex].incZ;
 
@@ -991,18 +1395,18 @@ void animacion(){
 
 			rotBraIzqEn += KeyFrame[playIndex].rotBraIzqEnInc;
 			rotBraDerEn += KeyFrame[playIndex].rotBraDerEnInc;
-			i_curr_steps++;
+			i_curr_steps++;*/
 		}
 
 	}
 
-	frame++;
+/*	frame++;
 	time = glutGet(GLUT_ELAPSED_TIME);
 	if (time - timebase > 1000) {
 		sprintf(s, "FPS:%4.2f", frame*1000.0 / (time - timebase));
 		timebase = time;
 		frame = 0;
-	}
+	}*/
 
 	glutPostRedisplay();
 }
@@ -1139,17 +1543,6 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 			KeyFrame[FrameIndex].posX = posX;
 			KeyFrame[FrameIndex].posY = posY;
 			KeyFrame[FrameIndex].posZ = posZ;
-
-			KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-			KeyFrame[FrameIndex].giroMonito = giroMonito;
-			KeyFrame[FrameIndex].rotMusIzq = rotMusIzq;
-			KeyFrame[FrameIndex].rotBraIzq = rotBraIzq;
-			KeyFrame[FrameIndex].rotBraDer = rotBraDer;
-
-			KeyFrame[FrameIndex].rotBraIzqEn = rotBraIzqEn;
-			KeyFrame[FrameIndex].rotBraDerEn = rotBraDerEn;
-
-
 			FrameIndex++;
 		}
 
@@ -1164,7 +1557,7 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 			posY = KeyFrame[0].posY;
 			posZ = KeyFrame[0].posZ;
 
-			rotRodIzq = KeyFrame[0].rotRodIzq;
+			/*rotRodIzq = KeyFrame[0].rotRodIzq;
 			giroMonito = KeyFrame[0].giroMonito;
 			rotMusIzq = KeyFrame[0].rotMusIzq;
 			rotBraIzq = KeyFrame[0].rotBraIzq;
@@ -1182,7 +1575,7 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 			KeyFrame[playIndex].rotBraIzqInc = (KeyFrame[playIndex + 1].rotBraIzq - KeyFrame[playIndex].rotBraIzq) / i_max_steps;
 			KeyFrame[playIndex].rotBraDerInc = (KeyFrame[playIndex + 1].rotBraDer - KeyFrame[playIndex].rotBraDer) / i_max_steps;
 			KeyFrame[playIndex].rotBraIzqEnInc = (KeyFrame[playIndex + 1].rotBraIzqEn - KeyFrame[playIndex].rotBraIzqEn) / i_max_steps;
-			KeyFrame[playIndex].rotBraDerEnInc = (KeyFrame[playIndex + 1].rotBraDerEn - KeyFrame[playIndex].rotBraDerEn) / i_max_steps;
+			KeyFrame[playIndex].rotBraDerEnInc = (KeyFrame[playIndex + 1].rotBraDerEn - KeyFrame[playIndex].rotBraDerEn) / i_max_steps;*/
 
 			play = true;
 			playIndex = 0;
@@ -1209,6 +1602,21 @@ void keyboard(unsigned char key, int x, int y)  // Create Keyboard Function
 			printf("apagar luz 1\n");
 		break;
 
+	case 'X':
+		light4 = !light4;
+		if (light4)
+			printf("encender luz 4\n");
+		else
+			printf("apagar luz 4\n");
+		break;
+
+	case 'x':
+		light3 = !light3;
+		if (light3)
+			printf("encender luz 3\n");
+		else
+			printf("apagar luz 3\n");
+		break;
 	case '2':
 		objCamera.Position_Camera(33, 3.5f, -16, 25, -3.5f, -16, 0, 1, 0);
 		break;
@@ -1389,15 +1797,6 @@ void menuKeyFrame(int id)
 			KeyFrame[FrameIndex].posY = posY;
 			KeyFrame[FrameIndex].posZ = posZ;
 
-			KeyFrame[FrameIndex].rotRodIzq = rotRodIzq;
-			KeyFrame[FrameIndex].giroMonito = giroMonito;
-			KeyFrame[FrameIndex].rotMusIzq = rotMusIzq;
-			KeyFrame[FrameIndex].rotBraIzq = rotBraIzq;
-			KeyFrame[FrameIndex].rotBraDer = rotBraDer;
-			KeyFrame[FrameIndex].rotBraIzqEn = rotBraIzqEn;
-			KeyFrame[FrameIndex].rotBraDerEn = rotBraDerEn;
-
-
 			FrameIndex++;
 		}
 
@@ -1412,7 +1811,7 @@ void menuKeyFrame(int id)
 			posY = KeyFrame[0].posY;
 			posZ = KeyFrame[0].posZ;
 
-			rotRodIzq = KeyFrame[0].rotRodIzq;
+		/*	rotRodIzq = KeyFrame[0].rotRodIzq;
 			giroMonito = KeyFrame[0].giroMonito;
 			rotMusIzq = KeyFrame[0].rotMusIzq;
 			rotBraIzq = KeyFrame[0].rotBraIzq;
@@ -1430,7 +1829,7 @@ void menuKeyFrame(int id)
 			KeyFrame[playIndex].rotBraDerEnInc = (KeyFrame[playIndex + 1].rotBraDerEn - KeyFrame[playIndex].rotBraDerEn) / i_max_steps;
 			play = true;
 			playIndex = 0;
-			i_curr_steps = 0;
+			i_curr_steps = 0;*/
 		}
 		else
 		{
@@ -1461,7 +1860,7 @@ int main(int argc, char** argv)   // Main Function
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
 	glutInitWindowSize(800, 600);	// Tamaño de la Ventana
 	glutInitWindowPosition(0, 0);	//Posicion de la Ventana
-	glutCreateWindow("Proyecto Final"); // Nombre de la Ventana
+	glutCreateWindow("PrOYECTO LABORATORIO"); // Nombre de la Ventana
 									 //glutFullScreen     ( );         // Full Screen
 	InitGL();						// Parametros iniciales de la aplicacion
 	glutDisplayFunc(display);  //Indicamos a Glut función de dibujo
